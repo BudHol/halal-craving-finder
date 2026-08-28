@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HalalBites HK - Hong Kong Halal Food Finder</title>
+  <meta name="description" content="Discover 199+ verified Halal restaurants across Hong Kong. Filter by craving, budget, and neighborhood.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              DEFAULT: '#047857',
+              dark: '#064e3b',
+              light: '#ecfdf5',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-[#fcfdfd] dark:bg-gray-950 text-gray-900 dark:text-gray-100 min-h-screen font-sans antialiased transition-colors duration-200 flex flex-col justify-between">
+
+  <!-- TOP HEADER -->
+  <header class="sticky top-0 z-30 bg-white/90 dark:bg-gray-950/90 backdrop-blur-md border-b border-gray-100 dark:border-gray-800/80 transition-colors">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-full bg-brand-dark flex items-center justify-center text-white text-sm shadow-sm">
+          <span>🌙</span>
+        </div>
+        <span class="font-extrabold text-xl tracking-tight text-gray-900 dark:text-white">Halal<span class="text-brand dark:text-emerald-400">Bites HK</span></span>
+      </a>
+
+      <!-- Header Navigation (Minimal - No "Saved") -->
+      <div class="flex items-center gap-4 sm:gap-6 text-sm font-medium text-gray-600 dark:text-gray-300">
+        <button type="button" id="surpriseMeBtn" class="hover:text-brand dark:hover:text-white transition-colors cursor-pointer">
+          Surprise Me
+        </button>
+
+        <button type="button" id="halalGuideBtn" class="text-brand dark:text-emerald-400 font-semibold border-b-2 border-brand dark:border-emerald-400 pb-0.5 transition-colors cursor-pointer">
+          Halal Guide
+        </button>
+
+        <button type="button" id="themeToggle" class="p-1.5 rounded-full text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors" title="Toggle Theme">
+          <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+          <svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-1 max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 w-full space-y-10">
+
+    <!-- HERO SECTION -->
+    <section class="text-center space-y-3">
+      <h1 class="text-3xl sm:text-5xl font-black text-[#064e3b] dark:text-emerald-400 tracking-tight">
+        Find Halal food in Hong Kong
+      </h1>
+      <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 max-w-lg mx-auto">
+        <span id="restaurantsCount" class="font-bold text-gray-800 dark:text-gray-200">199</span> verified Halal spots • Filter by craving, budget, or neighborhood
+      </p>
+
+      <!-- FLOATING SEARCH BAR (EXACT DESIGN AS SCREENSHOT) -->
+      <div class="mt-8 max-w-4xl mx-auto bg-white dark:bg-gray-900 rounded-full p-2 border border-gray-200/90 dark:border-gray-800 shadow-lg shadow-gray-200/40 dark:shadow-none transition-all flex flex-col sm:flex-row items-stretch sm:items-center divide-y sm:divide-y-0 sm:divide-x divide-gray-100 dark:divide-gray-800 gap-1 sm:gap-0">
+        
+        <!-- 1. What are you craving? Input -->
+        <div class="flex-1 px-4 py-1.5 flex items-center gap-2.5">
+          <span class="text-gray-400 text-sm">🔍</span>
+          <input type="text" id="searchInput" placeholder="What are you craving?" class="w-full bg-transparent text-xs sm:text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none py-1">
+          <button type="button" id="clearSearchBtn" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hidden">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+
+        <!-- 2. Budget Dropdown -->
+        <div class="sm:w-44 px-4 py-1.5 flex items-center gap-2">
+          <span class="text-gray-400 text-sm">💵</span>
+          <select id="budgetSelect" class="w-full bg-transparent text-xs sm:text-sm text-gray-700 dark:text-gray-200 font-medium focus:outline-none cursor-pointer py-1">
+            <option value="all">Budget</option>
+            <option value="under80">≤ HK$80 (Budget)</option>
+            <option value="under150">≤ HK$150 (Casual)</option>
+            <option value="under300">≤ HK$300 (Mid-range)</option>
+            <option value="500plus">HK$500+ (Fine/Buffet)</option>
+          </select>
+        </div>
+
+        <!-- 3. Location Dropdown -->
+        <div class="sm:w-48 px-4 py-1.5 flex items-center gap-2">
+          <span class="text-gray-400 text-sm">📍</span>
+          <select id="locationSelect" class="w-full bg-transparent text-xs sm:text-sm text-gray-700 dark:text-gray-200 font-medium focus:outline-none cursor-pointer py-1">
+            <option value="all">Location</option>
+            <optgroup label="── Regions ──">
+              <option value="region:Kowloon">Whole Kowloon (89 spots)</option>
+              <option value="region:Hong Kong Island">Whole HK Island (68 spots)</option>
+              <option value="region:New Territories & Outlying Islands">Whole NT & Islands (42 spots)</option>
+            </optgroup>
+            <!-- Specific neighborhoods injected dynamically -->
+          </select>
+        </div>
+
+        <!-- 4. Find Food Button -->
+        <div class="pt-1 sm:pt-0 sm:pl-2">
+          <button type="button" id="searchActionBtn" class="w-full sm:w-auto px-6 py-2.5 rounded-full bg-[#064e3b] dark:bg-emerald-600 hover:bg-[#047857] text-white font-bold text-xs sm:text-sm shadow-sm transition-all flex items-center justify-center">
+            Find Food
+          </button>
+        </div>
+
+      </div>
+
+      <!-- CRAVING CHIPS ROW (EXACT DESIGN AS SCREENSHOT) -->
+      <div class="pt-4 flex items-center justify-center gap-2 overflow-x-auto no-scrollbar py-1" id="cravingsContainer">
+        <!-- Populated via app.js -->
+      </div>
+    </section>
+
+    <!-- FEATURED SPOTS / RESULTS SECTION -->
+    <section id="resultsSection" class="space-y-6 pt-2">
+      
+      <!-- Section Header with Region Filter Toggle -->
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+        <div>
+          <h2 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
+            Featured Spots
+          </h2>
+          <p id="resultsSubtitle" class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+            Curated selections for you
+          </p>
+        </div>
+
+        <!-- Region Segment Control (All, HK, KLN, NT) -->
+        <div class="inline-flex rounded-xl bg-gray-100 dark:bg-gray-800 p-1 text-xs font-semibold self-start sm:self-auto" id="regionSegments">
+          <button type="button" class="region-chip active px-3.5 py-1.5 rounded-lg text-gray-900 dark:text-white transition-all" data-region="all">
+            All
+          </button>
+          <button type="button" class="region-chip px-3.5 py-1.5 rounded-lg text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-all" data-region="Hong Kong Island">
+            HK
+          </button>
+          <button type="button" class="region-chip px-3.5 py-1.5 rounded-lg text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-all" data-region="Kowloon">
+            KLN
+          </button>
+          <button type="button" class="region-chip px-3.5 py-1.5 rounded-lg text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-all" data-region="New Territories & Outlying Islands">
+            NT
+          </button>
+        </div>
+      </div>
+
+      <!-- RESTAURANTS CARDS GRID -->
+      <div id="restaurantsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Rendered dynamically via app.js -->
+      </div>
+
+      <!-- EMPTY STATE -->
+      <div id="emptyState" class="hidden text-center py-16 px-4 bg-white dark:bg-gray-900 rounded-3xl border border-gray-100 dark:border-gray-800">
+        <div class="text-4xl mb-3">🍽️</div>
+        <h3 class="text-base font-bold text-gray-900 dark:text-white">No matching spots found</h3>
+        <p class="text-xs text-gray-500 dark:text-gray-400 max-w-sm mx-auto mt-1">
+          Try clearing your craving search, budget, or location filters.
+        </p>
+        <button type="button" id="emptyStateResetBtn" class="mt-4 px-4 py-2 rounded-full bg-[#064e3b] text-white font-semibold text-xs hover:bg-[#047857]">
+          Reset Filters
+        </button>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- FOOTER (EXACT DESIGN AS SCREENSHOT) -->
+  <footer class="mt-16 border-t border-gray-100 dark:border-gray-900 py-8 px-4 text-xs text-gray-500">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>
+        <div class="font-extrabold text-base text-[#064e3b] dark:text-emerald-400">HalalBites HK</div>
+        <p class="text-[11px] text-gray-400 mt-0.5">© 2026 HalalBites HK. Curating premium Halal experiences.</p>
+      </div>
+      <div class="flex flex-wrap items-center gap-5 text-gray-600 dark:text-gray-400 font-medium">
+        <a href="#" class="hover:text-gray-900 dark:hover:text-white transition-colors">About Us</a>
+        <button type="button" onclick="document.getElementById('halalGuideBtn').click()" class="hover:text-gray-900 dark:hover:text-white transition-colors cursor-pointer">Certification Guide</button>
+        <a href="mailto:support@halalbites.hk" class="hover:text-gray-900 dark:hover:text-white transition-colors">Contact Support</a>
+        <a href="#" class="hover:text-gray-900 dark:hover:text-white transition-colors">Privacy Policy</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- DETAIL MODAL -->
+  <div id="detailModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
+    <div class="modal-backdrop fixed inset-0 bg-black/60 backdrop-blur-sm"></div>
+    <div class="modal-content relative z-10 w-full max-w-2xl bg-white dark:bg-gray-900 rounded-3xl shadow-2xl overflow-hidden border border-gray-100 dark:border-gray-800 max-h-[90vh] flex flex-col">
+      <button type="button" id="closeDetailModalBtn" class="absolute top-4 right-4 p-2 rounded-full bg-white/80 dark:bg-gray-800/80 backdrop-blur text-gray-500 dark:text-gray-300 hover:bg-gray-200 transition-colors z-20" title="Close">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+      <div id="detailModalContent" class="overflow-y-auto flex-1">
+        <!-- Rendered via app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- SURPRISE ME RANDOM MODAL -->
+  <div id="randomModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
+    <div class="modal-backdrop fixed inset-0 bg-black/60 backdrop-blur-sm"></div>
+    <div class="modal-content relative z-10 w-full max-w-md bg-white dark:bg-gray-900 rounded-3xl shadow-2xl overflow-hidden border border-gray-100 dark:border-gray-800 p-6">
+      <button type="button" id="closeRandomModalBtn" class="absolute top-4 right-4 p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-300 hover:bg-gray-200 transition-colors" title="Close">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+      <div class="text-center mb-4">
+        <h3 class="text-lg font-black text-gray-900 dark:text-white">🎲 Random Halal Match</h3>
+        <p class="text-xs text-gray-500 dark:text-gray-400">Here's a curated spot matching your preferences</p>
+      </div>
+
+      <div id="randomModalCard" class="my-4">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <div class="mt-4 text-center">
+        <button type="button" id="randomModalSpinBtn" class="py-2 px-5 rounded-full bg-[#064e3b] text-white text-xs font-bold hover:bg-[#047857] shadow">
+          🔄 Spin Again
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HALAL GUIDE MODAL -->
+  <div id="halalGuideModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
+    <div class="modal-backdrop fixed inset-0 bg-black/60 backdrop-blur-sm"></div>
+    <div class="modal-content relative z-10 w-full max-w-lg bg-white dark:bg-gray-900 rounded-3xl shadow-2xl overflow-hidden border border-gray-100 dark:border-gray-800 p-6">
+      <button type="button" id="closeHalalGuideBtn" class="absolute top-4 right-4 p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-300 hover:bg-gray-200 transition-colors" title="Close">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+
+      <div class="flex items-center gap-2.5 mb-4">
+        <span class="text-2xl">📜</span>
+        <div>
+          <h3 class="text-lg font-black text-gray-900 dark:text-white">Hong Kong Halal Certification Guide</h3>
+          <p class="text-xs text-gray-500 dark:text-gray-400">Understanding official certificates issued in Hong Kong</p>
+        </div>
+      </div>
+
+      <div class="space-y-3 text-xs text-gray-700 dark:text-gray-300">
+        <div class="p-3.5 rounded-2xl bg-emerald-50/70 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800">
+          <div class="flex items-center gap-2 font-bold text-emerald-900 dark:text-emerald-200 mb-1">
+            <span class="px-2 py-0.5 rounded bg-emerald-700 text-white font-mono text-[10px]">H</span>
+            <span>100% Halal Certified Restaurant</span>
+          </div>
+          <p class="text-emerald-800 dark:text-emerald-300 text-[11px]">Certified dining establishment where all meats, ingredients, and kitchens comply strictly with Halal guidelines.</p>
+        </div>
+
+        <div class="p-3.5 rounded-2xl bg-teal-50/70 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-800">
+          <div class="flex items-center gap-2 font-bold text-teal-900 dark:text-teal-200 mb-1">
+            <span class="px-2 py-0.5 rounded bg-teal-700 text-white font-mono text-[10px]">HK</span>
+            <span>Halal Certified Kitchen</span>
+          </div>
+          <p class="text-teal-800 dark:text-teal-300 text-[11px]">Dedicated segregated Halal kitchen with certified supplies, storage, and utensils.</p>
+        </div>
+
+        <div class="p-3.5 rounded-2xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+          <div class="flex items-center gap-2 font-bold text-gray-800 dark:text-gray-200 mb-1">
+            <span class="px-2 py-0.5 rounded bg-gray-600 text-white font-mono text-[10px]">HF</span>
+            <span>Halal Friendly / Certified Meat Supply</span>
+          </div>
+          <p class="text-gray-600 dark:text-gray-400 text-[11px]">Dedicated Halal options, verified certified meat suppliers, or Muslim-friendly menus.</p>
+        </div>
+      </div>
+
+      <div class="mt-5 text-center">
+        <button type="button" onclick="document.getElementById('closeHalalGuideBtn').click()" class="py-2 px-6 rounded-full bg-[#064e3b] text-white text-xs font-bold hover:bg-[#047857]">
+          Got it
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Data & Application Logic -->
+  <script src="data/restaurants.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
